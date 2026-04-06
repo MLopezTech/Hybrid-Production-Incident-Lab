@@ -246,33 +246,58 @@ Webpage working again
 
 ## Step 1 — Install Python
 
-sudo dnf install python3 -y
+check if installed python3 --version  or sudo dnf install python3 -y if not 
+
+![EC2 Running](../screenshots/pyver.png)
+
+
+
 
 ## Step 2 — Create Monitoring Script
 
 nano check_nginx.py
 
-Paste:
+![EC2 Running](../screenshots/pyscript.png)
 
+* opens the nano text editor
+* creates a new file named check_nginx.py
+
+###### Python scripts to run
+```
 import subprocess
 
-status = subprocess.run(["systemctl", "is-active", "nginx"], capture_output=True, text=True)
+status = subprocess.run(
+    ["systemctl", "is-active", "nginx"],
+    capture_output=True,
+    text=True
+)
 
 if "active" not in status.stdout:
     print("ALERT: Nginx is DOWN")
 else:
     print("Nginx is running")
+
+```
+
+##### What this code does:
+
+imports Python’s subprocess module so Python can run Linux commands
+runs systemctl is-active nginx
+captures the output
+checks whether the word active is present
+prints either:
+Nginx is running
+or ALERT: Nginx is DOWN
+
 ## Step 3 — Run Script
 
 python3 check_nginx.py
 
- Screenshot
+Screenshot
 
 Output: Nginx is running
 
-Save as:
-
-screenshots/11-python-running.png
+![EC2 Running](../screenshots/pyrunning.png)
 
 ## Step 4 — Simulate Detection
 
