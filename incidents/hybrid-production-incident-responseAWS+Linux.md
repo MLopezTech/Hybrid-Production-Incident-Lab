@@ -272,11 +272,12 @@ status = subprocess.run(
     text=True
 )
 
-if "active" not in status.stdout:
+service_state = status.stdout.strip()
+
+if service_state != "active":
     print("ALERT: Nginx is DOWN")
 else:
     print("Nginx is running")
-
 ```
 
 ##### What this code does:
@@ -302,22 +303,30 @@ Output: Nginx is running
 ## Step 4 — Simulate Detection
 
 sudo systemctl stop nginx
+
+![EC2 Running](../screenshots/true.png)
+
 python3 check_nginx.py
 
  Screenshot
 
 Output: ALERT: Nginx is DOWN
 
-Save as:
-
-screenshots/12-python-alert.png
+![EC2 Running](../screenshots/final2.png)
 
 
 ## Step 5 — Restore Service
 sudo systemctl start nginx
 
+![EC2 Running](../screenshots/restartsys.png)
+
+run python scrip to check service
+
+![EC2 Running](../screenshots/running12.png)
+
 # 📣 PHASE 9 — COMMUNICATION
 
+```
 Incident Timeline
 14:00 – Alert triggered (high CPU)
 14:02 – Investigation initiated
@@ -326,26 +335,28 @@ Incident Timeline
 14:08 – Process terminated
 14:09 – nginx restarted
 14:10 – Service restored
-
+```
 ## Bridge Call Summary
 
-The application degradation was caused by high CPU utilization due to a runaway process.
+The application degradation was caused by high CPU utilization due to runaway processes on the host.
 
-The process has been terminated and nginx service restarted.
+Although nginx remained active, system resource exhaustion impacted application responsiveness.
 
-The system has been validated and is now operating normally.
+The offending processes were identified and terminated, resulting in CPU normalization.
+
+The nginx service was validated post-recovery, and the application is now operating normally.
 
 ### Prevention Plan
-Implement CPU monitoring alerts (CloudWatch)
-Introduce automated service health checks
-Monitor process-level resource usage
-Establish incident response runbooks
+• Implement CPU utilization alerts using AWS CloudWatch  
+• Introduce automated service health checks (Python-based monitoring)  
+• Monitor process-level resource consumption to detect anomalies early  
+• Establish documented incident response runbooks for faster resolution  
 
 ###  Skills Demonstrated
-Linux troubleshooting (top, ps, systemctl)
-Log analysis (journalctl)
-Network validation (ss, curl)
-AWS EC2 management
-Incident response lifecycle
-Root cause analysis (RCA)
-Python automation
+• Linux system troubleshooting (top, ps, systemctl)
+• Log analysis and service diagnostics (journalctl)
+• Network and application validation (ss, curl)
+• AWS EC2 environment management
+• Incident response lifecycle execution (detection → resolution)
+• Root cause analysis (RCA) and system recovery
+• Automation and monitoring using Python scripting
