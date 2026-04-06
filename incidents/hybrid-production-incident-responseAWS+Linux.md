@@ -168,7 +168,7 @@ ps aux --sort=-%cpu | head -10
 
 yes process at top
 
-![EC2 Running](../screenshots/test1.png)
+![EC2 Running](../screenshots/psaux1.png)
 
 ## Step 3 — Check Service Status
 
@@ -182,18 +182,18 @@ nginx status output:
 
 journalctl -u nginx --no-pager | tail -20
 
- Screenshot
+Screenshot
 
 log output
 
-Save as:
-
-screenshots/08-logs.png
+![EC2 Running](../screenshots/tail1.png)
 
 ## Step 5 — Test Application Performance
 
 curl -I http://localhost
 time curl http://localhost
+
+![EC2 Running](../screenshots/testperformance.png)
 
 # 🧠 PHASE 5 — ROOT CAUSE ANALYSIS
 
@@ -207,6 +207,8 @@ This resulted in resource exhaustion, degrading overall system performance and i
 
 pkill yes
 
+![EC2 Running](../screenshots/pkillyes.png)
+
 ## Step 2 — Restart Service
 
 sudo systemctl restart nginx
@@ -214,7 +216,10 @@ sudo systemctl restart nginx
  ## PHASE 7 — VALIDATION
  
 Step 1 — Confirm CPU Normalization
+
 top
+
+![EC2 Running](../screenshots/restarttop.png)
 
 ## Step 2 — Confirm Service Status
 
@@ -228,22 +233,14 @@ ss -tulnp | grep :80
 
 curl http://localhost
 
- Screenshot
-
 CPU normal
 nginx active
 
-Save as:
+![EC2 Running](../screenshots/finala.png)
 
-screenshots/09-recovery.png
-
- Screenshot
 
 Webpage working again
 
-Save as:
-
-screenshots/10-web-restored.png
 
 # 🐍 PHASE 8 — AUTOMATION
 
