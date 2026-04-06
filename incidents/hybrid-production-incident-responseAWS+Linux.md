@@ -86,12 +86,18 @@ sudo dnf install nginx -y
 ## Step 6 — Start and Enable Nginx
 
 sudo systemctl start nginx
+
 sudo systemctl enable nginx
+
+![EC2 Running](../screenshots/enable1.png)
 
 ## Step 7 — Deploy Custom Web Page
 
-echo "<h1>Hybrid Incident Lab</h1><p>Status: Healthy</p>" | sudo tee /usr/share/nginx/html/index.html
-sudo systemctl restart nginx
+![EC2 Running](../screenshots/enable3.png)
+
+sudo systemctl restart nginx:
+
+![EC2 Running](../screenshots/enable4.png)
 
 ## Step 8 — Validate Application
 
@@ -99,15 +105,13 @@ curl localhost
 
 Open browser:
 
-http://<PUBLIC-IP>
+(http://100.31.123.213)
 
- Screenshot
+
 
 Webpage loading successfully
 
-Save as:
-
-screenshots/03-nginx-working.png
+🎊🎊🎊![EC2 Running](../screenshots/verifynginxrunning.png)
 
 # PHASE 2 — BASELINE VALIDATION
 
@@ -115,22 +119,24 @@ screenshots/03-nginx-working.png
 
 systemctl status nginx
 
+![EC2 Running](../screenshots/nginxrunning.png)
+
 ## Step 2 — Confirm Port Listening
 
 ss -tulnp | grep :80
+
+![EC2 Running](../screenshots/sstul.png)
 
 ## Step 3 — Confirm Application Response
 
 curl localhost
 
  Screenshot
+ 
+![EC2 Running](../screenshots/curllocal.png)
 
 nginx active
 port 80 listening
-
-Save as:
-
-screenshots/04-baseline.png
 
 
 # PHASE 3 — INCIDENT SIMULATION
