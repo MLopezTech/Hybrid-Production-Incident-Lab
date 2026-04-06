@@ -52,30 +52,36 @@ Alert → Investigation → Isolation → Root Cause → Resolution → Validati
 bash
 ssh -i ~/Downloads/incident-key.pem ec2-user@<PUBLIC-IP>
 
+![EC2 Running](../screenshots/sshentry.png)
+
+
 ## Step 3 — Verify OS (CONFIRM AMAZON LINUX)
 cat /etc/os-release
 
- Screenshot
+#### Screenshot
 
 Output shows Amazon Linux 2023
 
-Save as:
 
-screenshots/00-amazon-linux-proof.png
+
+![EC2 Running](../screenshots/verifyos.png)
+
+#### Verify you are inside Linux
+
+![EC2 Running](../screenshots/verifywhoiam.png)
 
 ## Step 4 — Update System
 sudo dnf update -y
 
+![EC2 Running](../screenshots/sudoupdate.png)
+
 ## Step 5 — Install Nginx
+
 sudo dnf install nginx -y
 
- Screenshot
+#### Screenshot
+![EC2 Running](../screenshots/sudoinstall.png)
 
-nginx installation output
-
-Save as:
-
-screenshots/02-nginx-installed.png
 
 ## Step 6 — Start and Enable Nginx
 
