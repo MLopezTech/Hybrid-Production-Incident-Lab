@@ -41,9 +41,8 @@ Alert → Investigation → Isolation → Root Cause → Resolution → Validati
 - EC2 instance in “Running” state
 - Public IP visible
 
-Save as:
+![EC2 Running](screenshots/instancerunning.png)
 
-screenshots/01-ec2-running.png
 
 
 ---
