@@ -145,6 +145,8 @@ port 80 listening
 yes > /dev/null &
 yes > /dev/null &
 
+![EC2 Running](../screenshots/runaway.png)
+
 This creates runaway processes consuming CPU resources.
 
 # PHASE 4 — INVESTIGATION
@@ -153,37 +155,28 @@ This creates runaway processes consuming CPU resources.
 
 top
 
- Screenshot
-
 High CPU usage visible
 yes processes consuming CPU
 
-Save as:
+![EC2 Running](../screenshots/hightop.png)
 
-screenshots/05-top-high-cpu.png
 
 ## Step 2 — Identify Resource-Intensive Processes
+
 ps aux --sort=-%cpu | head -10
 
- Screenshot
 
 yes process at top
 
-Save as:
-
-screenshots/06-ps-cpu.png
+![EC2 Running](../screenshots/test1.png)
 
 ## Step 3 — Check Service Status
 
 systemctl status nginx
 
- Screenshot
+nginx status output:
 
-nginx status output
-
-Save as:
-
-screenshots/07-nginx-status.png
+![EC2 Running](../screenshots/nginxstatus1.png)
 
 ## Step 4 — Review Logs
 
