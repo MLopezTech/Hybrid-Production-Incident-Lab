@@ -49,9 +49,10 @@ Alert → Investigation → Isolation → Root Cause → Resolution → Validati
 
 ## Step 2 — Connect via SSH (FROM MAC TERMINAL)
 
-```bash
+bash
 ssh -i ~/Downloads/incident-key.pem ec2-user@<PUBLIC-IP>
-Step 3 — Verify OS (CONFIRM AMAZON LINUX)
+
+## Step 3 — Verify OS (CONFIRM AMAZON LINUX)
 cat /etc/os-release
 
  Screenshot
@@ -61,9 +62,11 @@ Output shows Amazon Linux 2023
 Save as:
 
 screenshots/00-amazon-linux-proof.png
-Step 4 — Update System
+
+## Step 4 — Update System
 sudo dnf update -y
-Step 5 — Install Nginx
+
+## Step 5 — Install Nginx
 sudo dnf install nginx -y
 
  Screenshot
@@ -74,13 +77,18 @@ Save as:
 
 screenshots/02-nginx-installed.png
 
-Step 6 — Start and Enable Nginx
+## Step 6 — Start and Enable Nginx
+
 sudo systemctl start nginx
 sudo systemctl enable nginx
-Step 7 — Deploy Custom Web Page
+
+## Step 7 — Deploy Custom Web Page
+
 echo "<h1>Hybrid Incident Lab</h1><p>Status: Healthy</p>" | sudo tee /usr/share/nginx/html/index.html
 sudo systemctl restart nginx
-Step 8 — Validate Application
+
+## Step 8 — Validate Application
+
 curl localhost
 
 Open browser:
@@ -95,12 +103,18 @@ Save as:
 
 screenshots/03-nginx-working.png
 
-🧱 PHASE 2 — BASELINE VALIDATION
-Step 1 — Confirm Service Status
+# PHASE 2 — BASELINE VALIDATION
+
+## Step 1 — Confirm Service Status
+
 systemctl status nginx
-Step 2 — Confirm Port Listening
+
+## Step 2 — Confirm Port Listening
+
 ss -tulnp | grep :80
-Step 3 — Confirm Application Response
+
+## Step 3 — Confirm Application Response
+
 curl localhost
 
  Screenshot
@@ -113,15 +127,18 @@ Save as:
 screenshots/04-baseline.png
 
 
-💥 PHASE 3 — INCIDENT SIMULATION
-Step 1 — Simulate High CPU Condition
+# PHASE 3 — INCIDENT SIMULATION
+
+## Step 1 — Simulate High CPU Condition
 yes > /dev/null &
 yes > /dev/null &
 
 This creates runaway processes consuming CPU resources.
 
-🔍 PHASE 4 — INVESTIGATION
-Step 1 — Analyze CPU Usage
+# PHASE 4 — INVESTIGATION
+
+## Step 1 — Analyze CPU Usage
+
 top
 
  Screenshot
@@ -132,7 +149,8 @@ yes processes consuming CPU
 Save as:
 
 screenshots/05-top-high-cpu.png
-Step 2 — Identify Resource-Intensive Processes
+
+## Step 2 — Identify Resource-Intensive Processes
 ps aux --sort=-%cpu | head -10
 
  Screenshot
@@ -142,7 +160,9 @@ yes process at top
 Save as:
 
 screenshots/06-ps-cpu.png
-Step 3 — Check Service Status
+
+## Step 3 — Check Service Status
+
 systemctl status nginx
 
  Screenshot
@@ -152,7 +172,9 @@ nginx status output
 Save as:
 
 screenshots/07-nginx-status.png
-Step 4 — Review Logs
+
+## Step 4 — Review Logs
+
 journalctl -u nginx --no-pager | tail -20
 
  Screenshot
@@ -162,35 +184,43 @@ log output
 Save as:
 
 screenshots/08-logs.png
-Step 5 — Test Application Performance
+
+## Step 5 — Test Application Performance
+
 curl -I http://localhost
 time curl http://localhost
 
-🧠 PHASE 5 — ROOT CAUSE ANALYSIS
+# 🧠 PHASE 5 — ROOT CAUSE ANALYSIS
 
 The system experienced high CPU utilization caused by a runaway yes process.
 
 This resulted in resource exhaustion, degrading overall system performance and impacting nginx responsiveness.
 
-🔧 PHASE 6 — RESOLUTION
+# PHASE 6 — RESOLUTION
 
-Step 1 — Terminate Rogue Process
+## Step 1 — Terminate Rogue Process
+
 pkill yes
 
-Step 2 — Restart Service
+## Step 2 — Restart Service
+
 sudo systemctl restart nginx
 
- PHASE 7 — VALIDATION
+ ## PHASE 7 — VALIDATION
+ 
 Step 1 — Confirm CPU Normalization
 top
 
-Step 2 — Confirm Service Status
+## Step 2 — Confirm Service Status
+
 systemctl status nginx
 
-Step 3 — Confirm Port Listening
+## Step 3 — Confirm Port Listening
+
 ss -tulnp | grep :80
 
-Step 4 — Confirm Application Response
+## Step 4 — Confirm Application Response
+
 curl http://localhost
 
  Screenshot
@@ -210,12 +240,14 @@ Save as:
 
 screenshots/10-web-restored.png
 
-🐍 PHASE 8 — AUTOMATION
+# 🐍 PHASE 8 — AUTOMATION
 
-Step 1 — Install Python
+## Step 1 — Install Python
+
 sudo dnf install python3 -y
 
-Step 2 — Create Monitoring Script
+## Step 2 — Create Monitoring Script
+
 nano check_nginx.py
 
 Paste:
@@ -228,7 +260,8 @@ if "active" not in status.stdout:
     print("ALERT: Nginx is DOWN")
 else:
     print("Nginx is running")
-Step 3 — Run Script
+## Step 3 — Run Script
+
 python3 check_nginx.py
 
  Screenshot
@@ -238,7 +271,9 @@ Output: Nginx is running
 Save as:
 
 screenshots/11-python-running.png
-Step 4 — Simulate Detection
+
+## Step 4 — Simulate Detection
+
 sudo systemctl stop nginx
 python3 check_nginx.py
 
@@ -251,10 +286,11 @@ Save as:
 screenshots/12-python-alert.png
 
 
-Step 5 — Restore Service
+## Step 5 — Restore Service
 sudo systemctl start nginx
 
-📣 PHASE 9 — COMMUNICATION
+# 📣 PHASE 9 — COMMUNICATION
+
 Incident Timeline
 14:00 – Alert triggered (high CPU)
 14:02 – Investigation initiated
@@ -263,7 +299,8 @@ Incident Timeline
 14:08 – Process terminated
 14:09 – nginx restarted
 14:10 – Service restored
-Bridge Call Summary
+
+## Bridge Call Summary
 
 The application degradation was caused by high CPU utilization due to a runaway process.
 
@@ -271,13 +308,13 @@ The process has been terminated and nginx service restarted.
 
 The system has been validated and is now operating normally.
 
-Prevention Plan
+### Prevention Plan
 Implement CPU monitoring alerts (CloudWatch)
 Introduce automated service health checks
 Monitor process-level resource usage
 Establish incident response runbooks
 
-💪 Skills Demonstrated
+###  Skills Demonstrated
 Linux troubleshooting (top, ps, systemctl)
 Log analysis (journalctl)
 Network validation (ss, curl)
