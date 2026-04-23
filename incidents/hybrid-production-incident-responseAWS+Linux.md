@@ -23,7 +23,7 @@ The objective was to investigate, identify root cause, restore service, and vali
 
 ##  Incident Response Lifecycle
 
-Alert → Investigation → Isolation → Root Cause → Resolution → Validation → Prevention
+Alert > Investigation > Isolation > Root Cause > Resolution > Validation > Prevention
 
 ---
 
@@ -31,7 +31,7 @@ Alert → Investigation → Isolation → Root Cause → Resolution → Validati
 
 ## Step 1 — Launch EC2 Instance (AWS Console)
 
-- Instance Type: `t2.micro` (Free Tier)
+- Instance Type: `t2.micro` 
 - OS: Amazon Linux 2023
 - Security Group:
   - SSH (22) → My IP
