@@ -357,6 +357,6 @@ The nginx service was validated post-recovery, and the application is now operat
 • Log analysis and service diagnostics (journalctl)
 • Network and application validation (ss, curl)
 • AWS EC2 environment management
-• Incident response lifecycle execution (detection → resolution)
+• Incident response lifecycle execution (detection > resolution)
 • Root cause analysis (RCA) and system recovery
 • Automation and monitoring using Python scripting
